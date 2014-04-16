@@ -12,18 +12,27 @@ class ftPostTypes {
 
   function __construct() {
     $this->config_path =   WP_CONTENT_DIR . '/posttypes';
-    $this->types_dir = $this->config_path . '/types';
 
-    add_action('init', array($this, 'init'));
+    // We want the init to run after the default 10 to give themes a chance to config
+    add_action('init', array($this, 'init'), 20);
     add_action('admin_menu', array($this, 'admin_menu'));
+
+    // Flushes rewrite cache when plugin is activated/deactivated.
     register_activation_hook(__FILE__, array($this, 'plugin_activate'));
     register_deactivation_hook(__FILE__, array($this, 'plugin_deactivate'));
+
+    // Allow theme to override config path
+    add_action('ft_posttypes_path', array($this, 'set_path'));
 
     $this->parse();
   }
 
   private function parse() {
-    foreach (glob($this->types_dir . "/*.yaml") as $filename) {
+    if(!file_exists($this->config_path)) {
+      return false;
+    }
+
+    foreach (glob($this->config_path . "/**/*.yaml") as $filename) {
       $this->config[] = spyc_load_file($filename);
     }
   }
@@ -49,6 +58,16 @@ class ftPostTypes {
   function update_rewrite() {
     flush_rewrite_rules();
     echo "<p>Rewrite cache flushed</p>";
+  }
+
+  function set_path($path) {
+    if(!file_exists($path)) {
+      return false;
+    }
+
+    $this->config_path = $path;
+
+    $this->parse();
   }
 }
 
