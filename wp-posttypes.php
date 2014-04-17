@@ -4,7 +4,9 @@
  * Description: Wordpress Custom Post Types Plugin
  */
 
-require_once('lib/spyc.php');
+if(!class_exists('Spyc')) {
+  require_once('lib/spyc.php');
+}
 
 class ftPostTypes {
 
