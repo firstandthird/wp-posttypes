@@ -1,4 +1,4 @@
-wp-posttypes
+First+Third Post Types
 ============
 
 Wordpress Custom Post Types Plugin

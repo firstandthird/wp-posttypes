@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: wp-posttypes
+ * Plugin Name: First+Third Post Types
  * Description: Wordpress Custom Post Types Plugin
  */
 
