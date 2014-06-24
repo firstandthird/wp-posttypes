@@ -92,7 +92,7 @@ class ftPostTypes {
 
   function edit_styles() {
     foreach($this->config as $type) {
-      if((isset($_GET['post_type']) && $_GET['post_type'] === $type['slug']) || (isset($_GET['post']) && get_page_by_path($type['slug'], OBJECT, $type['slug'])->ID == $_GET['post'])) {
+      if(get_post_type() === $type['slug']) {
         echo '<style>';
         echo '.add-new-h2 { display: none;  }';
         echo '#edit-slug-box { display: none; }';
